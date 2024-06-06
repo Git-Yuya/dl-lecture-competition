@@ -1,13 +1,16 @@
-batch_size: 128
-epochs: 80
-lr: 0.001
+# Configuration for training parameters
+batch_size: 128      # Number of samples per gradient update
+epochs: 80           # Number of complete passes through the training dataset
+lr: 0.001            # Learning rate for the optimizer
 
-device: cuda:0
-num_workers: 4
-seed: 1234
-use_wandb: False
+# Device configuration
+device: cuda:0       # Device to be used for computation (e.g., cuda:0 for the first GPU, or cpu for using the CPU)
+num_workers: 4       # Number of subprocesses to use for data loading
+seed: 1234           # Random seed for reproducibility
+use_wandb: False     # Boolean flag to enable or disable Weights and Biases logging
 
-data_dir: data
+# Data directory
+data_dir: data       # Directory where the data is stored
 
-# Evaluation
-model_path: 
+# Evaluation configuration
+model_path:          # Path to the model file for evaluation (leave blank if not used)
