@@ -44,7 +44,7 @@ $ git clone git@github.com:[Github user name]/dl_lecture_competition_pub
 - [Competition name]には`MEG-competition`（脳波分類タスク），`VQA-competition`（VQAタスク），`event-camera-competition`（EventCameraタスク）のいずれかが入ります．
 ```bash
 $ cd dl_lecture_competition_pub
-$ git checkout [Competition name]/main
+$ git checkout [Competition name]
 ```
 4. README.mdの`環境構築`を参考に環境を作成します．
 - README.mdにはconda，もしくはDockerを利用した環境構築の手順を記載しています．
