@@ -1,9 +1,6 @@
 import os
-from typing import Tuple
 
-import numpy as np
 import torch
-from termcolor import cprint
 
 
 class ThingsMEGDataset(torch.utils.data.Dataset):
@@ -23,8 +20,10 @@ class ThingsMEGDataset(torch.utils.data.Dataset):
             assert len(torch.unique(self.y)) == self.num_classes, "Number of classes do not match."  # Checking if number of unique labels matches the number of classes
 
         # Calculate mean and standard deviation
-        mean = torch.mean(self.X)
-        std = torch.std(self.X)
+        # mean = torch.mean(self.X)
+        # std = torch.std(self.X)
+        mean = -0.006601160857826471
+        std = 2.5331075191497803
         
         # Normalize self.X
         self.X = (self.X - mean) / std
