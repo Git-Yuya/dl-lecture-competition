@@ -1,12 +1,14 @@
-import os, sys
+import os
+import sys
+
+import hydra
 import numpy as np
 import torch
 import torch.nn.functional as F
-from torchmetrics import Accuracy
-import hydra
-from omegaconf import DictConfig
 import wandb
+from omegaconf import DictConfig
 from termcolor import cprint
+from torchmetrics import Accuracy
 from tqdm import tqdm
 
 from src.datasets import ThingsMEGDataset
