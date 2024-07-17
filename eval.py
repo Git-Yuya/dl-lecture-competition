@@ -1,14 +1,10 @@
 import os
-import sys
 
 import hydra
 import numpy as np
 import torch
-import torch.nn.functional as F
-import wandb
 from omegaconf import DictConfig
 from termcolor import cprint
-from torchmetrics import Accuracy
 from tqdm import tqdm
 
 from src.datasets import ThingsMEGDataset
@@ -34,7 +30,10 @@ def run(args: DictConfig):
     #       Model
     # ------------------
     model = BasicConvClassifier(
-        test_set.num_classes, test_set.seq_len, test_set.num_channels
+        num_classes=test_set.num_classes,
+        seq_len=test_set.seq_len,
+        in_channels=test_set.num_channels,
+        hid_dim=args.hid_dim
     ).to(args.device)
     model.load_state_dict(torch.load(args.model_path, map_location=args.device))
 
