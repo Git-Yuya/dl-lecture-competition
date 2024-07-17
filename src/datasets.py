@@ -21,7 +21,14 @@ class ThingsMEGDataset(torch.utils.data.Dataset):
         if split in ["train", "val"]:
             self.y = torch.load(os.path.join(data_dir, f"{split}_y.pt"))  # Loading labels for train/val sets
             assert len(torch.unique(self.y)) == self.num_classes, "Number of classes do not match."  # Checking if number of unique labels matches the number of classes
-    
+
+        # Calculate mean and standard deviation
+        mean = torch.mean(self.X)
+        std = torch.std(self.X)
+        
+        # Normalize self.X
+        self.X = (self.X - mean) / std
+
     def __len__(self) -> int:
         return len(self.X)  # Returning the length of the dataset
     
