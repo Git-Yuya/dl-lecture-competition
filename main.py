@@ -51,12 +51,12 @@ def run(args: DictConfig):
     # ------------------
     #     Optimizer
     # ------------------
-    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
-    # optimizer = torch.optim.AdamW(
-    #     params=model.parameters(),
-    #     lr=args.lr,
-    #     weight_decay=args.weight_decay
-    # )
+    # optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+    optimizer = torch.optim.AdamW(
+        params=model.parameters(),
+        lr=args.lr,
+        weight_decay=args.weight_decay
+    )
 
     # ------------------
     #   Start training
