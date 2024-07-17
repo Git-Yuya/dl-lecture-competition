@@ -42,13 +42,21 @@ def run(args: DictConfig):
     #       Model
     # ------------------
     model = BasicConvClassifier(
-        train_set.num_classes, train_set.seq_len, train_set.num_channels
+        num_classes=train_set.num_classes,
+        seq_len=train_set.seq_len,
+        in_channels=train_set.num_channels,
+        hid_dim=args.hid_dim
     ).to(args.device)
 
     # ------------------
     #     Optimizer
     # ------------------
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+    # optimizer = torch.optim.AdamW(
+    #     params=model.parameters(),
+    #     lr=args.lr,
+    #     weight_decay=args.weight_decay
+    # )
 
     # ------------------
     #   Start training
@@ -57,9 +65,9 @@ def run(args: DictConfig):
     accuracy = Accuracy(
         task="multiclass", num_classes=train_set.num_classes, top_k=10
     ).to(args.device)
-      
+
     for epoch in range(args.epochs):
-        print(f"Epoch {epoch+1}/{args.epochs}")
+        print(f"Epoch {epoch + 1} / {args.epochs}")
         
         train_loss, train_acc, val_loss, val_acc = [], [], [], []
         
@@ -89,7 +97,7 @@ def run(args: DictConfig):
             val_loss.append(F.cross_entropy(y_pred, y).item())
             val_acc.append(accuracy(y_pred, y).item())
 
-        print(f"Epoch {epoch+1}/{args.epochs} | train loss: {np.mean(train_loss):.3f} | train acc: {np.mean(train_acc):.3f} | val loss: {np.mean(val_loss):.3f} | val acc: {np.mean(val_acc):.3f}")
+        print(f"Epoch {epoch + 1} / {args.epochs} | train loss: {np.mean(train_loss):.3f} | train acc: {np.mean(train_acc):.3f} | val loss: {np.mean(val_loss):.3f} | val acc: {np.mean(val_acc):.3f}")
         torch.save(model.state_dict(), os.path.join(logdir, "model_last.pt"))
         if args.use_wandb:
             wandb.log({"train_loss": np.mean(train_loss), "train_acc": np.mean(train_acc), "val_loss": np.mean(val_loss), "val_acc": np.mean(val_acc)})
@@ -98,7 +106,7 @@ def run(args: DictConfig):
             cprint("New best.", "cyan")
             torch.save(model.state_dict(), os.path.join(logdir, "model_best.pt"))
             max_val_acc = np.mean(val_acc)
-            
+
     
     # ----------------------------------
     #  Start evaluation with best model
