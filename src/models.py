@@ -5,13 +5,13 @@ from einops.layers.torch import Rearrange
 
 
 class BasicConvClassifier(nn.Module):
-    def __init__(self, num_classes: int, seq_len: int, in_channels: int, hid_dim: int = 128) -> None:
+    def __init__(self, num_classes: int, seq_len: int, in_channels: int, hid_dim: int = 128, p_drop: float = 0.1) -> None:
         super().__init__()  # Calling the constructor of the parent class
 
         # Defining the convolutional blocks and the classification head
         self.blocks = nn.Sequential(
-            ConvBlock(in_channels, hid_dim),
-            ConvBlock(hid_dim, hid_dim),
+            ConvBlock(in_dim=in_channels, out_dim=hid_dim, p_drop=p_drop),
+            ConvBlock(in_dim=hid_dim, out_dim=hid_dim, p_drop=p_drop)
         )
 
         self.head = nn.Sequential(
@@ -44,11 +44,11 @@ class ConvBlock(nn.Module):
         # Defining the convolutional layers, batch normalization, and dropout
         self.conv0 = nn.Conv1d(in_dim, out_dim, kernel_size, padding="same")
         self.conv1 = nn.Conv1d(out_dim, out_dim, kernel_size, padding="same")
-        self.conv2 = nn.Conv1d(out_dim, out_dim, kernel_size, padding="same")
+        # self.conv2 = nn.Conv1d(out_dim, out_dim, kernel_size, padding="same")
         
         self.batchnorm0 = nn.BatchNorm1d(num_features=out_dim)
         self.batchnorm1 = nn.BatchNorm1d(num_features=out_dim)
-        self.batchnorm2 = nn.BatchNorm1d(num_features=out_dim)
+        # self.batchnorm2 = nn.BatchNorm1d(num_features=out_dim)
 
         self.dropout = nn.Dropout(p_drop)
 
@@ -63,7 +63,7 @@ class ConvBlock(nn.Module):
         X = self.conv1(X) + X  # Applying skip connection
         X = F.gelu(self.batchnorm1(X))  # Applying activation function and batch normalization
 
-        X = self.conv2(X) + X  # Applying skip connection
-        X = F.gelu(self.batchnorm2(X))  # Applying activation function and batch normalization
+        # X = self.conv2(X) + X  # Applying skip connection
+        # X = F.gelu(self.batchnorm2(X))  # Applying activation function and batch normalization
 
         return self.dropout(X)  # Applying dropout and returning the output
