@@ -33,7 +33,8 @@ def run(args: DictConfig):
         num_classes=test_set.num_classes,
         seq_len=test_set.seq_len,
         in_channels=test_set.num_channels,
-        hid_dim=args.hid_dim
+        hid_dim=args.hid_dim,
+        p_drop=args.p_drop
     ).to(args.device)
     model.load_state_dict(torch.load(args.model_path, map_location=args.device))
 
