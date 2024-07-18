@@ -44,18 +44,19 @@ def run(args: DictConfig):
         num_classes=train_set.num_classes,
         seq_len=train_set.seq_len,
         in_channels=train_set.num_channels,
-        hid_dim=args.hid_dim
+        hid_dim=args.hid_dim,
+        p_drop=args.p_drop
     ).to(args.device)
 
     # ------------------
     #     Optimizer
     # ------------------
-    # optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
-    optimizer = torch.optim.AdamW(
-        params=model.parameters(),
-        lr=args.lr,
-        weight_decay=args.weight_decay
-    )
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+    # optimizer = torch.optim.AdamW(
+    #     params=model.parameters(),
+    #     lr=args.lr,
+    #     weight_decay=args.weight_decay
+    # )
 
     # ------------------
     #   Start training
