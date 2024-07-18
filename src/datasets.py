@@ -22,11 +22,13 @@ class ThingsMEGDataset(torch.utils.data.Dataset):
         # Calculate mean and standard deviation
         # mean = torch.mean(self.X)
         # std = torch.std(self.X)
-        mean = -0.006601160857826471
-        std = 2.5331075191497803
+        # mean = -0.006601160857826471
+        # std = 2.5331075191497803
         
-        # Normalize self.X
-        self.X = (self.X - mean) / std
+        # Standardization
+        # self.X = (self.X - mean) / std
+        # Standardize in-place
+        # self.X.sub_(mean).div_(std)
 
     def __len__(self) -> int:
         return len(self.X)  # Returning the length of the dataset
